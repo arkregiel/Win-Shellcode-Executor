@@ -153,6 +153,9 @@
     <ClInclude Include="src\ShellcodeExecution\ShellcodeSelfInjector.h" />
     <ClInclude Include="src\ShellcodeExecution\ShellcodeProcessInjector.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
