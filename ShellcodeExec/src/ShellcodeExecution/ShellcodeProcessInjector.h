@@ -4,6 +4,7 @@
 
 // Program name of process to inject shellcode into
 #define TARGET_PROCESS_PROGRAM_NAME L"mspaint.exe"
+//#define TARGET_PROCESS_PROGRAM_NAME L"explorer.exe"
 
 namespace ShellcodeExecution
 {
